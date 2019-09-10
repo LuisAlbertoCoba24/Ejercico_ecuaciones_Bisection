@@ -1,76 +1,140 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+  Esta parte del codigo contiene una interfas grafica, la cual nos muetra los resultados atrabes de una tabla
+  despues de dar click en el boton de calcular nos arroja los resultados, para esto selecionamos una ecuacion
+  y llenamos los campos correspondientes a lo que nos esta pidiendo.
  */
 package gui;
 
-import javax.swing.table.DefaultTableModel;
-import metodo_bisection.metodo_bisecion_ecuacion_uno;
-import metodo_bisection.metodo_bisecion_ecuacion_dos;
+//Impotmos las paquerias de clases y librias a yulizar
+import javax.swing.table.DefaultTableModel;//Importamos DefaultTableModel que nos permitira crear el modelo para la tabla
+import metodo_bisection.metodo_bisecion_ecuacion_uno;//Tomamos la resolucion de una funcion numero uno
+import metodo_bisection.metodo_bisecion_ecuacion_dos;//Importamos la clase de la ecuacion dos pa usar sus metodos  
 
 public class pantalla_calculos extends javax.swing.JFrame {
 
+  //Inicamos nustras clase las cuales continen la funcion de cada ecuacion o su resolucion de sustitucion
   metodo_bisecion_ecuacion_uno resolucion = new metodo_bisecion_ecuacion_uno();
   metodo_bisecion_ecuacion_dos resolucion_ecuacion_dos = new metodo_bisecion_ecuacion_dos();
  
-  int iteraciones = 0;
-  double xr = 0;
-  double test = 0;
-  double ea = 0;
-  double xrold = 0;
-  int opciones = 0;
+  //Creamos algunas variables locales para almacenar las operaciones.
+  private int iteraciones = 0;//La varaiable de iteraciones nos contendra el numero de repeticiones que realizara el ciclo
+  private double xr = 0;//Esta variable contendra el resultado de la formula  (xi + xu)/2, 
+                        //de igual forma usaremos para el camvio de variable y la realizacion de su funcion
+  private double test = 0;//Contendra los resultados al mutiplicar f(xi)*f(xr) y usaremos para evaluar con los if 
+  private double ea = 0;//Con esta variable almacenaremos el error aproximado, por cada repeticion
+  private double xrold = 0;//Usaremos como intermediario para guardar el valor de nuettra variable xr
+  private int opciones = 0;//Almacena la elecion de la ecuacion segun el usuario
   
-  
-  
+  //Clae publica donde se inician los componentes de la interfas grafica
   public pantalla_calculos() {
-    initComponents();
-
+    initComponents(); //Componentes de interfas grafica
   }
   
-  public void ecuacion(){
+  //Metodo de de carga de opcion 
+  private void opcionUno(){
     
-    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel() ;
+    //En la varable opcion cargamos el numero uno que nos ayudara a la elecion dentro del switch
+    //Al selecionar la premeria ecuacion "3(x+1)(x-1/2)(x-1)" del radio buttom cargara nuetra variable con este numero
+    opciones = 1;
+    
+  }
   
-    double xu = Double.valueOf(txtxf.getText());  
+   private void opcionDos(){
+    
+    //En la varable opcion cargamos el numero dos que nos ayudara a la elecion dentro del switch
+    //Al selecionar la segunda ecuacion "x^3-7x^2-14x-6" del radio buttom cargara nuetra variable con este numero
+    opciones = 2;
+    
+  }
+   
+   //Creamos el metodo o procedimiento de selecion el cual ara la selecion del metodo a usar de las ecuaciones
+  private void selecionar(){
+    
+    //Pasamos la variable opciones, en el switch para selecionar el caso, cada caso contiene una ecuacion
+    //Caso numero 1 contiene la reslucion del metodo de bisecion del la ecuacion numero 1
+    //El caso dos contiene la resolucion del metodo de bisecion de la ecuacion numero 2
+    switch (opciones) { //pasamos la variable opciones 
+
+ 
+      //Se comprueva el valor de la varibale opciones si es 1 entra en este caso
+      case 1:
+        //Dentro de case este el metodo para de la resolucion de la ecuacion numero 1 
+        ecuacion();
+      break; //rompemos el case despues de terminar el proseso para salir del bucle 
+
+
+      case 2:
+        //Dentro de case este el metodo para de la resolucion de la ecuacion numero 2
+        ecuacion_dos();
+      break;
+      
+        //si la aplicacion no encuentra ninguna opcion mostrara el siguiente mensaje 
+      default:
+
+      System.out.println("selecione una opcion");
+
+      break;
+    } 
+  }
+ 
+  //proceso de resolucion con el metodo de bisecion, ecuqacion numero 1
+  private void ecuacion(){
+    
+    //cramos un modelo el cual  se usara para la carga de los datos dirigida a la tabla en la interfas 
+    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel() ;
+    
+    //creamos la variable xu acuando como datos inferior 
+    //que almacenara los datos recuperados de la caja de texto y convertira a double
+    double xu = Double.valueOf(txtxf.getText());
+    //cremoa la variable xi acuando como el dato superior, y almacena los datos optenidos de la caja de texto
     double xi = Double.valueOf(textXi.getText());
+    //la varibale maxiteraciones, nos ayuda a limitar el numero de repeticiones del siclo
     int maxiteraciones = Integer.parseInt(jTextField4.getText());
+    //em es el numoer de error aproximado que deseamos encontrar
     double em = Double.parseDouble(jTextField1.getText());
     
-    resolucion.fxi(xi);
-    resolucion.fxf(xu);
-    
-    if( (resolucion.fxi(xi)*resolucion.fxf(xu)) > 0 ){
+    //Llamamos a los metodo de resolucion los cuales contienen los metodos para resolver la ecuacion
+    //multiplicamos los resultados y compramos el valor de 0
+    if( (resolucion.fxi(xi)*resolucion.fxf(xu)) >= 0 ){
       
+      //si es mayor a 0 no tiene raiz y muetra el mensaje
       System.out.println("No tiene raiz");
       
-    }else{
+    }else{ //si la consion no se cumple pasamo al siguiente paso o la opcion
     
+      //usamos el siclo do para primero ir haciendo el prosedimiento
     do {          
       
+      //usamos la variable xrold para guardar xr
       xrold = xr;
       
+      //guardamos los resultados de nuetra formalula aplicada
       xr = (xi+xu)/2;
       
-      ea = Math.abs((xr-xrold)/xr)*100;
-
+      ea = Math.abs((xr-xrold)/xr)*100;//alpicamos y realizamos la formula de error aproximado
+      
+      //guardamos la multiplicacion pasando xr por la resolucion de ecuaciones
       test = resolucion.fxi(xi)*resolucion.fxf(xr);
-              
-      if( test < 0 ){
+      
+      //realisamos la evalucion de la variable test
+      if( test < 0 ){ 
         
+        //si test es menor a 0 asignamos la variable xr a varible xu
         xu = xr;
         
-      }else if( test > 0 ){
+      }else if( test > 0 ){//si la condicion no se cumple lo anterior volvemos a comprar mediante una nueva condicion 
+
         
-        xi = xr;
+        xi = xr;//camviamos el valor de xi por xr
         
       }else{
-        
+        //si ninguna condicion se cumple el error minimo es 0 y termina el proceso
         ea = 0;
-        
       }
-
+      
+      //aumentamos la el contador de las iteraciones posibles
       iteraciones  = iteraciones  + 1;
+      //Aumentamos el modelo de la tabla agregando una columna 
       modelo.addRow(new Object[]{iteraciones,xi,xu,xr,resolucion.fxi(xi), resolucion.fxf(xu),resolucion.fxf(xr),test,ea});
         
       } while( ea > em && iteraciones <= maxiteraciones );
@@ -81,47 +145,57 @@ public class pantalla_calculos extends javax.swing.JFrame {
   
   public void ecuacion_dos(){
     
+    //cramos un modelo el cual  se usara para la carga de los datos dirigida a la tabla en la interfas 
     DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel() ;
-  
-    double xu = Double.valueOf(txtxf.getText());  
+    
+    //creamos la variable xu acuando como datos inferior 
+    //que almacenara los datos recuperados de la caja de texto y convertira a double
+    double xu = Double.valueOf(txtxf.getText());
+    //cremoa la variable xi acuando como el dato superior, y almacena los datos optenidos de la caja de texto
     double xi = Double.valueOf(textXi.getText());
+    //la varibale maxiteraciones, nos ayuda a limitar el numero de repeticiones del siclo
     int maxiteraciones = Integer.parseInt(jTextField4.getText());
+    //em es el numoer de error aproximado que deseamos encontrar
     double em = Double.parseDouble(jTextField1.getText());
     
-    resolucion_ecuacion_dos.fxi(xi);
-    resolucion_ecuacion_dos.fxf(xu);
-    
+    //Llamamos a los metodo de resolucion los cuales contienen los metodos para resolver la ecuacion
+    //Multiplicamos los resultados y compramos el valor de 0
     if( (resolucion_ecuacion_dos.fxi(xi)*resolucion_ecuacion_dos.fxf(xu)) > 0 ){
       
+      //Si es mayor a 0 no tiene raiz y muetra el mensaje
       System.out.println("No tiene raiz");
       
-    }else{
+    }else{//si la consion no se cumple pasamo al siguiente paso
     
+    //usamos el siclo do para primero ir haciendo el prosedimiento
     do {          
       
+      //usamos la variable xrold para guardar xr
       xrold = xr;
       
-      xr = (xi+xu)/2;
+      xr = (xi+xu)/2;//guardamos los resultados de nuetra formalula aplicada
       
-      ea = Math.abs((xr-xrold)/xr)*100;
-
+      ea = Math.abs((xr-xrold)/xr)*100;//alpicamos y realizamos la formula de error aproximado
+      
+      //guardamos la multiplicacion pasando xr por la resolucion de ecuaciones
       test = resolucion_ecuacion_dos.fxi(xi)*resolucion_ecuacion_dos.fxf(xr);
               
       if( test < 0 ){
-        
+        //si test es menor a 0 asignamos la variable xr a varible xu
         xu = xr;
         
-      }else if( test > 0 ){
-        
-        xi = xr;
+      }else if( test > 0 ){//si la condicion no se cumple lo anterior volvemos a comprar mediante una nueva condicion 
+
+        xi = xr;//camviamos el valor de xi por xr
         
       }else{
-        
+        //si ninguna condicion se cumple el error minimo es 0 y termina el proceso
         ea = 0;
-        
       }
-
+      
+      //aumentamos la el contador de las iteraciones posibles
       iteraciones  = iteraciones  + 1;
+      //Aumentamos el modelo de la tabla agregando una columna 
       modelo.addRow(new Object[]{iteraciones,xi,xu,xr,resolucion_ecuacion_dos.fxi(xi),
                     resolucion_ecuacion_dos.fxf(xu),resolucion_ecuacion_dos.fxf(xr),test,ea});
         
@@ -130,51 +204,6 @@ public class pantalla_calculos extends javax.swing.JFrame {
     }
   }
   
-  private void selecionar(){
-    
-   switch (opciones) {
-
- 
-
-        case 1:
-
-        ecuacion();
-
-        break;
-
- 
-
-        case 2:
-
-        ecuacion_dos();
-
-        break;
-
-      
-
-        default:
-
-       System.out.println("selecione una opcion");
-
-        break;
- }
-     
-  }
- 
-  private void opcionUno(){
-    
-    opciones = 1;
-    
-  }
-  
-   private void opcionDos(){
-    
-    opciones = 2;
-    
-  }
-
-
-
   @SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
