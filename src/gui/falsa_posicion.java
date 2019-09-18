@@ -1,5 +1,5 @@
 /*
- * Integrantes: Luis Alberto Coba Ventura
+ * Integrantes: Luis Alberto Coba Ventura, Miguel Antonio Ceron Matamoros, Edward Mijangos Toledo
  * seccion 2
  * generacion 2018
  * metodo de falsa posicion
@@ -130,13 +130,13 @@ public class falsa_posicion extends javax.swing.JFrame {
         
       case 3:
         //Dentro de case este el metodo para de la resolucion de la ecuacion numero 3
-       
+       procedimiento_ecuacion_tres();
         
       break;
         
       case 4:
         //Dentro de case este el metodo para de la resolucion de la ecuacion numero 4
-       
+        procedimiento_ecuacion_cuatro();
         
       break;
       
@@ -152,66 +152,6 @@ public class falsa_posicion extends javax.swing.JFrame {
   }
   
   private void procedimiento_ecuacion_uno(){
-    
-    int i = 0; //Iniciamos un contador en 0 para controlar el nuevo numero de repeticiones
-    
-    p0 = Double.parseDouble( textFieldP0.getText() );//Obtenemos los valores de la caja de texto(textFieldP0) y combertimos a double
-    p1 = Double.parseDouble( textFieldP1.getText() );//Obtenemos los valores de la caja de texto (textFieldP1) y converimos a double
-    
-    //ralizamos la resolucion de la ecuacion
-    //Damos el dato de p0 recuperado para saver el resultado de la ecuacion y asignarlo a q0
-    q0 = ecuaciones.ecuacionNumeroDos(p0);
-    //Damos el dato de p1 recuperado para saver el resultado de la ecuacion y asignarlo a q1
-    q1 = ecuaciones.ecuacionNumeroDos(p1);
-    
-    //Se realiza un ciclo mientras, para repetir el metodo de falsa posicion, 
-    //esto se repite hasta llegar al maximo numero de interaciones  
-    while( (i <= 20) && ( ea != 0 )){
-      
-      //cargamos el modelo con las datos que mostraremos en la interfas grafica, estos datos se separan por una coma,
-      //este objeto se le colocan las varibales que se quieran mostrar en el orden de la estructura antes construida
-      modelo_tabla.addRow( new Object[]{i,p,p0,p1,ecuaciones.ecuacionNumeroDos(p0),ecuaciones.ecuacionNumeroDos(p1),
-                            q,q0,q1 });
-      
-      //Aplicamos la formula para encontrar a p utilizando las varbles que contienen los numeros recuperados de las 
-      //cajas de texto y las variables de contien los resultados de las ecuaciones
-      p = p1 - (q1 * (( p1 - p0)/( q1 - q0 )));
-     
-      //Se realiza una comparacion, con el valo absoluto de la resta de p para comprovar si es mejor que la tolerancia
-      if((Math.abs( p - p1)) < tol ){
-        //Si la afirmacion es correcta se asigna el numero 0 a la variable error aproximado
-        ea = 0;
-        
-      }//Si la sentencia no se cumple no se raliza nada.
-      
-      //Despues del pasar por la condicion se ralizan las sigientes operaciones 
-      q = ecuaciones.ecuacionNumeroDos(p);//se resuelve la ecuacion pasando como valor la variable p
-      
-      //Despues de obtener el resultado de la ecuacion, realizamos una multiplicacion de q con q1 y el resultado 
-      //lo comparamos, si el resultado es menor a 0 
-      if( (q * q1) < 0 ){
-        
-        //Si es menor a 0, intercamviamos las variables, quitando el valor de p0 y dandole el valor de p1
-        p0 = p1;
-        
-      }else
-      {
-        //En caso contrario si es mayor damos el valor a q0 de la varibale q1
-        q0 = q1;
-      }
-      
-      //Se realiza un cambio de variables
-      p1 = p; //A p1 asigamos a p
-      q1 = q; //A q1 asignamos a q
-      
-      i = i + 1; //Incrementamos el contador en uno
-     
-    }
-    
-    tableDatos.setModel(modelo_tabla); //asigsamos el modelo a la tabla con los neuvos renglones
-  }
-  
-  private void procedimiento_ecuacion_dos(){
     
     int i = 0; //Iniciamos un contador en 0 para controlar el nuevo numero de repeticiones
     
@@ -271,6 +211,185 @@ public class falsa_posicion extends javax.swing.JFrame {
     tableDatos.setModel(modelo_tabla); //asigsamos el modelo a la tabla con los neuvos renglones
   }
   
+  private void procedimiento_ecuacion_dos(){
+    
+    int i = 0; //Iniciamos un contador en 0 para controlar el nuevo numero de repeticiones
+    
+    p0 = Double.parseDouble( textFieldP0.getText() );//Obtenemos los valores de la caja de texto(textFieldP0) y combertimos a double
+    p1 = Double.parseDouble( textFieldP1.getText() );//Obtenemos los valores de la caja de texto (textFieldP1) y converimos a double
+    
+    //ralizamos la resolucion de la ecuacion
+    //Damos el dato de p0 recuperado para saver el resultado de la ecuacion y asignarlo a q0
+    q0 = ecuaciones.ecuacionNumeroDos(p0);
+    //Damos el dato de p1 recuperado para saver el resultado de la ecuacion y asignarlo a q1
+    q1 = ecuaciones.ecuacionNumeroDos(p1);
+    
+    //Se realiza un ciclo mientras, para repetir el metodo de falsa posicion, 
+    //esto se repite hasta llegar al maximo numero de interaciones  
+    while( (i <= 20) && ( ea != 0 )){
+      
+      //cargamos el modelo con las datos que mostraremos en la interfas grafica, estos datos se separan por una coma,
+      //este objeto se le colocan las varibales que se quieran mostrar en el orden de la estructura antes construida
+      modelo_tabla.addRow( new Object[]{i,p,p0,p1,ecuaciones.ecuacionNumeroDos(p0),ecuaciones.ecuacionNumeroDos(p1),
+                            q,q0,q1 });
+      
+      //Aplicamos la formula para encontrar a p utilizando las varbles que contienen los numeros recuperados de las 
+      //cajas de texto y las variables de contien los resultados de las ecuaciones
+      p = p1 - (q1 * (( p1 - p0)/( q1 - q0 )));
+     
+      //Se realiza una comparacion, con el valo absoluto de la resta de p para comprovar si es mejor que la tolerancia
+      if((Math.abs( p - p1)) < tol ){
+        //Si la afirmacion es correcta se asigna el numero 0 a la variable error aproximado
+        ea = 0;
+        
+      }//Si la sentencia no se cumple no se raliza nada.
+      
+      //Despues del pasar por la condicion se ralizan las sigientes operaciones 
+      q = ecuaciones.ecuacionNumeroDos(p);//se resuelve la ecuacion pasando como valor la variable p
+      
+      //Despues de obtener el resultado de la ecuacion, realizamos una multiplicacion de q con q1 y el resultado 
+      //lo comparamos, si el resultado es menor a 0 
+      if( (q * q1) < 0 ){
+        
+        //Si es menor a 0, intercamviamos las variables, quitando el valor de p0 y dandole el valor de p1
+        p0 = p1;
+        
+      }else
+      {
+        //En caso contrario si es mayor damos el valor a q0 de la varibale q1
+        q0 = q1;
+      }
+      
+      //Se realiza un cambio de variables
+      p1 = p; //A p1 asigamos a p
+      q1 = q; //A q1 asignamos a q
+      
+      i = i + 1; //Incrementamos el contador en uno
+     
+    }
+    
+    tableDatos.setModel(modelo_tabla); //asigsamos el modelo a la tabla con los neuvos renglones
+  }
+  
+  private void procedimiento_ecuacion_tres(){
+    
+    int i = 0; //Iniciamos un contador en 0 para controlar el nuevo numero de repeticiones
+    
+    p0 = Double.parseDouble( textFieldP0.getText() );//Obtenemos los valores de la caja de texto(textFieldP0) y combertimos a double
+    p1 = Double.parseDouble( textFieldP1.getText() );//Obtenemos los valores de la caja de texto (textFieldP1) y converimos a double
+    
+    //ralizamos la resolucion de la ecuacion
+    //Damos el dato de p0 recuperado para saver el resultado de la ecuacion y asignarlo a q0
+    q0 = ecuaciones.ecuacionNumeroTres(p0);
+    //Damos el dato de p1 recuperado para saver el resultado de la ecuacion y asignarlo a q1
+    q1 = ecuaciones.ecuacionNumeroTres(p1);
+    
+    //Se realiza un ciclo mientras, para repetir el metodo de falsa posicion, 
+    //esto se repite hasta llegar al maximo numero de interaciones  
+    while( (i <= 20) && ( ea != 0 )){
+      
+      //cargamos el modelo con las datos que mostraremos en la interfas grafica, estos datos se separan por una coma,
+      //este objeto se le colocan las varibales que se quieran mostrar en el orden de la estructura antes construida
+      modelo_tabla.addRow( new Object[]{i,p,p0,p1,ecuaciones.ecuacionNumeroTres(p0),ecuaciones.ecuacionNumeroTres(p1),
+                            q,q0,q1 });
+      
+      //Aplicamos la formula para encontrar a p utilizando las varbles que contienen los numeros recuperados de las 
+      //cajas de texto y las variables de contien los resultados de las ecuaciones
+      p = p1 - (q1 * (( p1 - p0)/( q1 - q0 )));
+     
+      //Se realiza una comparacion, con el valo absoluto de la resta de p para comprovar si es mejor que la tolerancia
+      if((Math.abs( p - p1)) < tol ){
+        //Si la afirmacion es correcta se asigna el numero 0 a la variable error aproximado
+        ea = 0;
+        
+      }//Si la sentencia no se cumple no se raliza nada.
+      
+      //Despues del pasar por la condicion se ralizan las sigientes operaciones 
+      q = ecuaciones.ecuacionNumeroTres(p);//se resuelve la ecuacion pasando como valor la variable p
+      
+      //Despues de obtener el resultado de la ecuacion, realizamos una multiplicacion de q con q1 y el resultado 
+      //lo comparamos, si el resultado es menor a 0 
+      if( (q * q1) < 0 ){
+        
+        //Si es menor a 0, intercamviamos las variables, quitando el valor de p0 y dandole el valor de p1
+        p0 = p1;
+        
+      }else
+      {
+        //En caso contrario si es mayor damos el valor a q0 de la varibale q1
+        q0 = q1;
+      }
+      
+      //Se realiza un cambio de variables
+      p1 = p; //A p1 asigamos a p
+      q1 = q; //A q1 asignamos a q
+      
+      i = i + 1; //Incrementamos el contador en uno
+     
+    }
+    
+    tableDatos.setModel(modelo_tabla); //asigsamos el modelo a la tabla con los neuvos renglones
+  }
+  
+  private void procedimiento_ecuacion_cuatro(){
+    
+    int i = 0; //Iniciamos un contador en 0 para controlar el nuevo numero de repeticiones
+    
+    p0 = Double.parseDouble( textFieldP0.getText() );//Obtenemos los valores de la caja de texto(textFieldP0) y combertimos a double
+    p1 = Double.parseDouble( textFieldP1.getText() );//Obtenemos los valores de la caja de texto (textFieldP1) y converimos a double
+    
+    //ralizamos la resolucion de la ecuacion
+    //Damos el dato de p0 recuperado para saver el resultado de la ecuacion y asignarlo a q0
+    q0 = ecuaciones.ecuacionNumeroCuatro(p0);
+    //Damos el dato de p1 recuperado para saver el resultado de la ecuacion y asignarlo a q1
+    q1 = ecuaciones.ecuacionNumeroCuatro(p1);
+    
+    //Se realiza un ciclo mientras, para repetir el metodo de falsa posicion, 
+    //esto se repite hasta llegar al maximo numero de interaciones  
+    while( (i <= 20) && ( ea != 0 )){
+      
+      //cargamos el modelo con las datos que mostraremos en la interfas grafica, estos datos se separan por una coma,
+      //este objeto se le colocan las varibales que se quieran mostrar en el orden de la estructura antes construida
+      modelo_tabla.addRow( new Object[]{i,p,p0,p1,ecuaciones.ecuacionNumeroCuatro(p0),ecuaciones.ecuacionNumeroCuatro(p1),
+                            q,q0,q1 });
+      
+      //Aplicamos la formula para encontrar a p utilizando las varbles que contienen los numeros recuperados de las 
+      //cajas de texto y las variables de contien los resultados de las ecuaciones
+      p = p1 - (q1 * (( p1 - p0)/( q1 - q0 )));
+     
+      //Se realiza una comparacion, con el valo absoluto de la resta de p para comprovar si es mejor que la tolerancia
+      if((Math.abs( p - p1)) < tol ){
+        //Si la afirmacion es correcta se asigna el numero 0 a la variable error aproximado
+        ea = 0;
+        
+      }//Si la sentencia no se cumple no se raliza nada.
+      
+      //Despues del pasar por la condicion se ralizan las sigientes operaciones 
+      q = ecuaciones.ecuacionNumeroCuatro(p);//se resuelve la ecuacion pasando como valor la variable p
+      
+      //Despues de obtener el resultado de la ecuacion, realizamos una multiplicacion de q con q1 y el resultado 
+      //lo comparamos, si el resultado es menor a 0 
+      if( (q * q1) < 0 ){
+        
+        //Si es menor a 0, intercamviamos las variables, quitando el valor de p0 y dandole el valor de p1
+        p0 = p1;
+        
+      }else
+      {
+        //En caso contrario si es mayor damos el valor a q0 de la varibale q1
+        q0 = q1;
+      }
+      
+      //Se realiza un cambio de variables
+      p1 = p; //A p1 asigamos a p
+      q1 = q; //A q1 asignamos a q
+      
+      i = i + 1; //Incrementamos el contador en uno
+     
+    }
+    
+    tableDatos.setModel(modelo_tabla); //asigsamos el modelo a la tabla con los neuvos renglones
+  }
   
   
   
@@ -287,17 +406,12 @@ public class falsa_posicion extends javax.swing.JFrame {
     jPanel2 = new javax.swing.JPanel();
     textFieldP0 = new javax.swing.JTextField();
     textFieldP1 = new javax.swing.JTextField();
-    jTextField3 = new javax.swing.JTextField();
-    jTextField4 = new javax.swing.JTextField();
     jButton1 = new javax.swing.JButton();
-    jLabel1 = new javax.swing.JLabel();
-    jLabel2 = new javax.swing.JLabel();
     jLabel3 = new javax.swing.JLabel();
     jLabel4 = new javax.swing.JLabel();
     jScrollPane1 = new javax.swing.JScrollPane();
     tableDatos = new javax.swing.JTable();
     buttonLimpiarTabla = new javax.swing.JButton();
-    jButton2 = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -372,10 +486,6 @@ public class falsa_posicion extends javax.swing.JFrame {
       }
     });
 
-    jLabel1.setText("No iteraciones");
-
-    jLabel2.setText("Tolerancia");
-
     jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
     jLabel3.setText("P0");
 
@@ -391,18 +501,14 @@ public class falsa_posicion extends javax.swing.JFrame {
           .addGroup(jPanel2Layout.createSequentialGroup()
             .addGap(156, 156, 156)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-              .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(textFieldP0)
-              .addComponent(jTextField3)
-              .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+              .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+              .addComponent(textFieldP0))
             .addGap(158, 158, 158)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
               .addComponent(textFieldP1)
-              .addComponent(jTextField4)
-              .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-              .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+              .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
           .addGroup(jPanel2Layout.createSequentialGroup()
-            .addGap(343, 343, 343)
+            .addGap(341, 341, 341)
             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
@@ -416,17 +522,9 @@ public class falsa_posicion extends javax.swing.JFrame {
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(textFieldP0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(textFieldP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGap(10, 10, 10)
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(jLabel1)
-          .addComponent(jLabel2))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addComponent(jButton1)
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addContainerGap())
     );
 
     tableDatos.setModel(new javax.swing.table.DefaultTableModel(
@@ -449,13 +547,6 @@ public class falsa_posicion extends javax.swing.JFrame {
       }
     });
 
-    jButton2.setText("jButton2");
-    jButton2.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        jButton2ActionPerformed(evt);
-      }
-    });
-
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
@@ -463,12 +554,10 @@ public class falsa_posicion extends javax.swing.JFrame {
       .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       .addComponent(jScrollPane1)
-      .addGroup(layout.createSequentialGroup()
-        .addGap(84, 84, 84)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         .addComponent(buttonLimpiarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(164, 164, 164)
-        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addGap(323, 323, 323))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -476,13 +565,11 @@ public class falsa_posicion extends javax.swing.JFrame {
         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(17, 17, 17)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(buttonLimpiarTabla)
-          .addComponent(jButton2))
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addComponent(buttonLimpiarTabla)
+        .addContainerGap())
     );
 
     pack();
@@ -522,10 +609,6 @@ public class falsa_posicion extends javax.swing.JFrame {
     // TODO add your handling code here:
     procedimiento();
   }//GEN-LAST:event_jButton1ActionPerformed
-
-  private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_jButton2ActionPerformed
 
   /**
    * @param args the command line arguments
@@ -570,16 +653,11 @@ public class falsa_posicion extends javax.swing.JFrame {
   private javax.swing.JRadioButton ecuacionC;
   private javax.swing.JRadioButton ecuacionD;
   private javax.swing.JButton jButton1;
-  private javax.swing.JButton jButton2;
-  private javax.swing.JLabel jLabel1;
-  private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel3;
   private javax.swing.JLabel jLabel4;
   private javax.swing.JPanel jPanel1;
   private javax.swing.JPanel jPanel2;
   private javax.swing.JScrollPane jScrollPane1;
-  private javax.swing.JTextField jTextField3;
-  private javax.swing.JTextField jTextField4;
   private javax.swing.JTable tableDatos;
   private javax.swing.JTextField textFieldP0;
   private javax.swing.JTextField textFieldP1;
